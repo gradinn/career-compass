@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { HomePage } from './pages/HomePage';
+import { UniversityDetailPage } from './pages/UniversityDetailPage';
+import { MajorDetailPage } from './pages/MajorDetailPage';
+import { CombinedDetailPage } from './pages/CombinedDetailPage';
+
+type View =
+  | { type: 'home' }
+  | { type: 'university'; universityId: string }
+  | { type: 'major'; majorId: string }
+  | { type: 'combined'; universityId: string; majorId: string };
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [view, setView] = useState<View>({ type: 'home' });
+
+  const handleUniversityClick = (universityId: string) => {
+    setView({ type: 'university', universityId });
+  };
+
+  const handleMajorClick = (majorId: string) => {
+    setView({ type: 'major', majorId });
+  };
+
+  const handleCombinedClick = (universityId: string, majorId: string) => {
+    setView({ type: 'combined', universityId, majorId });
+  };
+
+  const handleBack = () => {
+    setView({ type: 'home' });
+  };
+
+  const handleBackToUniversity = (universityId: string) => {
+    setView({ type: 'university', universityId });
+  };
+
+  if (view.type === 'university') {
+    return (
+      <UniversityDetailPage
+        universityId={view.universityId}
+        onBack={handleBack}
+        onMajorClick={(_, majorId) => handleCombinedClick(view.universityId, majorId)}
+      />
+    );
+  }
+
+  if (view.type === 'major') {
+    return (
+      <MajorDetailPage
+        majorId={view.majorId}
+        onBack={handleBack}
+      />
+    );
+  }
+
+  if (view.type === 'combined') {
+    return (
+      <CombinedDetailPage
+        universityId={view.universityId}
+        majorId={view.majorId}
+        onBack={() => handleBackToUniversity(view.universityId)}
+      />
+    );
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <HomePage
+      onUniversityClick={handleUniversityClick}
+      onMajorClick={handleMajorClick}
+      onCombinedClick={handleCombinedClick}
+    />
+  );
 }
 
-export default App
+export default App;
