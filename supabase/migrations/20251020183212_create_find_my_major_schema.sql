@@ -1,5 +1,5 @@
 /*
-  # Find My Major Database Schema
+  # Career Compass Database Schema
 
   ## Overview
   This migration creates the complete database schema for a career and major research platform
