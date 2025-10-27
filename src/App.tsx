@@ -3,6 +3,7 @@ import { HomePage } from './pages/HomePage';
 import { UniversityDetailPage } from './pages/UniversityDetailPage';
 import { MajorDetailPage } from './pages/MajorDetailPage';
 import { CombinedDetailPage } from './pages/CombinedDetailPage';
+import { Navbar } from './components/Navbar';
 
 type View =
   | { type: 'home' }
@@ -33,41 +34,45 @@ function App() {
     setView({ type: 'university', universityId });
   };
 
-  if (view.type === 'university') {
-    return (
-      <UniversityDetailPage
-        universityId={view.universityId}
-        onBack={handleBack}
-        onMajorClick={(_, majorId) => handleCombinedClick(view.universityId, majorId)}
-      />
-    );
-  }
-
-  if (view.type === 'major') {
-    return (
-      <MajorDetailPage
-        majorId={view.majorId}
-        onBack={handleBack}
-      />
-    );
-  }
-
-  if (view.type === 'combined') {
-    return (
-      <CombinedDetailPage
-        universityId={view.universityId}
-        majorId={view.majorId}
-        onBack={() => handleBackToUniversity(view.universityId)}
-      />
-    );
-  }
-
   return (
-    <HomePage
-      onUniversityClick={handleUniversityClick}
-      onMajorClick={handleMajorClick}
-      onCombinedClick={handleCombinedClick}
-    />
+    <div>
+      <Navbar
+        onHomeClick={() => setView({ type: 'home' })}
+        onLoginClick={() => alert('Login feature coming soon!')}
+      />
+
+      {/* Page content */}
+      {view.type === 'home' && (
+        <HomePage
+          onUniversityClick={handleUniversityClick}
+          onMajorClick={handleMajorClick}
+          onCombinedClick={handleCombinedClick}
+        />
+      )}
+
+      {view.type === 'university' && (
+        <UniversityDetailPage
+          universityId={view.universityId}
+          onBack={handleBack}
+          onMajorClick={(_, majorId) => handleCombinedClick(view.universityId, majorId)}
+        />
+      )}
+
+      {view.type === 'major' && (
+        <MajorDetailPage
+          majorId={view.majorId}
+          onBack={handleBack}
+        />
+      )}
+
+      {view.type === 'combined' && (
+        <CombinedDetailPage
+          universityId={view.universityId}
+          majorId={view.majorId}
+          onBack={() => handleBackToUniversity(view.universityId)}
+        />
+      )}
+    </div>
   );
 }
 
