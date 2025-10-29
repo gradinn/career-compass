@@ -3,8 +3,7 @@ import { HomePage } from './pages/HomePage';
 import { UniversityDetailPage } from './pages/UniversityDetailPage';
 import { MajorDetailPage } from './pages/MajorDetailPage';
 import { CombinedDetailPage } from './pages/CombinedDetailPage';
-import { Navbar } from './components/Navbar';
-import { useAuth0 } from "@auth0/auth0-react";
+import Navbar from './components/Navbar';
 
 type View =
   | { type: 'home' }
@@ -37,10 +36,7 @@ function App() {
 
   return (
     <div>
-      <Navbar
-        onHomeClick={() => setView({ type: 'home' })}
-        onLoginClick={() => alert('Login feature coming soon!')}
-      />
+      <Navbar/>
 
       {/* Page content */}
       {view.type === 'home' && (

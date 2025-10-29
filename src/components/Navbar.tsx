@@ -6,14 +6,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useAuth0 } from "@auth0/auth0-react";
 
-interface NavbarProps {
-  onHomeClick?: () => void;
-  onLoginClick?: () => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ onHomeClick, onLoginClick }) => {
+function Navbar() {
   const { loginWithRedirect } = useAuth0();
-    const { logout } = useAuth0();
+  const { logout } = useAuth0();
 
   const { user, isAuthenticated, isLoading } = useAuth0();
 
@@ -26,7 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onHomeClick, onLoginClick }) => 
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, cursor: 'pointer' }}
-            onClick={onHomeClick}
+            onClick={() => {}}
           >
             Home
           </Typography>
@@ -44,3 +39,5 @@ export const Navbar: React.FC<NavbarProps> = ({ onHomeClick, onLoginClick }) => 
     </Box>
   );
 };
+
+export default Navbar;
