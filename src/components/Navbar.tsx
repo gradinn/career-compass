@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,8 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 function Navbar() {
   const { loginWithRedirect } = useAuth0();
   const { logout } = useAuth0();
-
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   
   return (
