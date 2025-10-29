@@ -4,6 +4,7 @@ import { UniversityDetailPage } from './pages/UniversityDetailPage';
 import { MajorDetailPage } from './pages/MajorDetailPage';
 import { CombinedDetailPage } from './pages/CombinedDetailPage';
 import { Navbar } from './components/Navbar';
+import { useAuth0 } from "@auth0/auth0-react";
 
 type View =
   | { type: 'home' }
