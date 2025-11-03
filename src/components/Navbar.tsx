@@ -1,36 +1,41 @@
-import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { useAuth0 } from "@auth0/auth0-react";
 
-interface NavbarProps {
-  onHomeClick?: () => void;
-  onLoginClick?: () => void;
-}
+function Navbar() {
+  const { loginWithRedirect } = useAuth0();
+  const { logout } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
-export const Navbar: React.FC<NavbarProps> = ({ onHomeClick, onLoginClick }) => {
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary" elevation={2}>
         <Toolbar>
-          {/* Home (Left Side) */}
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, cursor: 'pointer' }}
-            onClick={onHomeClick}
+            onClick={() => {}}
           >
             Home
           </Typography>
-
-          {/* Login (Right Side) */}
-          <Button color="inherit" onClick={onLoginClick}>
-            Login
-          </Button>
+          {isAuthenticated ? (
+            <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+              Log Out
+            </button>
+          ) : (
+            <Button color="inherit" onClick={() => loginWithRedirect()}>
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
   );
 };
+
+export default Navbar;
