@@ -3,15 +3,12 @@ import {
   ArrowLeft,
   MapPin,
   Users,
-  Star,
   TrendingUp,
   DollarSign,
   ExternalLink,
-  ThumbsUp,
-  ThumbsDown,
   Award,
 } from 'lucide-react';
-import { supabase, type University, type UniversityReview, type UniversityMajor, type Major } from '../lib/supabase';
+import { supabase, type University, type UniversityMajor, type Major } from '../lib/supabase';
 
 interface UniversityDetailPageProps {
   universityId: string;
@@ -21,7 +18,6 @@ interface UniversityDetailPageProps {
 
 export function UniversityDetailPage({ universityId, onBack, onMajorClick }: UniversityDetailPageProps) {
   const [university, setUniversity] = useState<University | null>(null);
-  const [reviews, setReviews] = useState<UniversityReview[]>([]);
   const [topMajors, setTopMajors] = useState<(UniversityMajor & { major: Major })[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -40,16 +36,6 @@ export function UniversityDetailPage({ universityId, onBack, onMajorClick }: Uni
 
       if (uniData) {
         setUniversity(uniData);
-      }
-
-      const { data: reviewData } = await supabase
-        .from('university_reviews')
-        .select('*')
-        .eq('university_id', universityId)
-        .order('created_at', { ascending: false });
-
-      if (reviewData) {
-        setReviews(reviewData);
       }
 
       const { data: majorData } = await supabase
@@ -76,25 +62,6 @@ export function UniversityDetailPage({ universityId, onBack, onMajorClick }: Uni
       </div>
     );
   }
-
-  const avgRating = reviews.length > 0
-    ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
-    : 0;
-
-  const avgAcademic = reviews.filter(r => r.academic_rating).length > 0
-    ? reviews.filter(r => r.academic_rating).reduce((acc, r) => acc + r.academic_rating, 0) /
-      reviews.filter(r => r.academic_rating).length
-    : 0;
-
-  const avgCampus = reviews.filter(r => r.campus_rating).length > 0
-    ? reviews.filter(r => r.campus_rating).reduce((acc, r) => acc + r.campus_rating, 0) /
-      reviews.filter(r => r.campus_rating).length
-    : 0;
-
-  const avgSocial = reviews.filter(r => r.social_rating).length > 0
-    ? reviews.filter(r => r.social_rating).reduce((acc, r) => acc + r.social_rating, 0) /
-      reviews.filter(r => r.social_rating).length
-    : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -146,37 +113,7 @@ export function UniversityDetailPage({ universityId, onBack, onMajorClick }: Uni
               )}
             </div>
 
-            {reviews.length > 0 && (
-              <div className="flex items-center gap-6 mb-6 pb-6 border-b">
-                <div className="flex items-center gap-2">
-                  <Star className="w-8 h-8 fill-yellow-400 text-yellow-400" />
-                  <div>
-                    <div className="text-3xl font-bold">{avgRating.toFixed(1)}</div>
-                    <div className="text-sm text-gray-500">
-                      {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}
-                    </div>
-                  </div>
-                </div>
-                {avgAcademic > 0 && (
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{avgAcademic.toFixed(1)}</div>
-                    <div className="text-sm text-gray-500">Academics</div>
-                  </div>
-                )}
-                {avgCampus > 0 && (
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{avgCampus.toFixed(1)}</div>
-                    <div className="text-sm text-gray-500">Campus</div>
-                  </div>
-                )}
-                {avgSocial > 0 && (
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{avgSocial.toFixed(1)}</div>
-                    <div className="text-sm text-gray-500">Social Life</div>
-                  </div>
-                )}
-              </div>
-            )}
+
 
             <p className="text-gray-700 mb-8 leading-relaxed">{university.description}</p>
 
@@ -252,49 +189,6 @@ export function UniversityDetailPage({ universityId, onBack, onMajorClick }: Uni
             </div>
           </div>
         )}
-
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Student Reviews</h2>
-          {reviews.length === 0 ? (
-            <p className="text-gray-600 text-center py-8">No reviews yet. Be the first to review!</p>
-          ) : (
-            <div className="space-y-6">
-              {reviews.map((review) => (
-                <div key={review.id} className="border-b border-gray-100 pb-6 last:border-b-0">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-bold text-lg text-gray-900">{review.title}</h3>
-                      <span className="text-sm text-gray-500">{review.student_year}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      <span className="font-bold text-lg">{review.rating}</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-700 mb-4">{review.review_text}</p>
-                  {review.pros && (
-                    <div className="mb-2">
-                      <div className="flex items-center gap-2 text-green-700 font-medium mb-1">
-                        <ThumbsUp className="w-4 h-4" />
-                        <span>Pros</span>
-                      </div>
-                      <p className="text-sm text-gray-600 ml-6">{review.pros}</p>
-                    </div>
-                  )}
-                  {review.cons && (
-                    <div>
-                      <div className="flex items-center gap-2 text-red-700 font-medium mb-1">
-                        <ThumbsDown className="w-4 h-4" />
-                        <span>Cons</span>
-                      </div>
-                      <p className="text-sm text-gray-600 ml-6">{review.cons}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );

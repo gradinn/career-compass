@@ -136,7 +136,7 @@ export function HomePage({ onUniversityClick, onMajorClick }: HomePageProps) {
 
             {filteredMajors.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Majors & Careers</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Majors</h2>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {filteredMajors.map((major) => (
                     <MajorCard

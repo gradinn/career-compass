@@ -4,13 +4,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const { loginWithRedirect } = useAuth0();
-  const { logout } = useAuth0();
-  const { isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
 
-  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary" elevation={2}>
@@ -18,15 +17,19 @@ function Navbar() {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, cursor: 'pointer' }}
-            onClick={() => {}}
+            sx={{ flexGrow: 1 }}
           >
-            Home
+            <span
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate('/')}
+            >
+              Home
+            </span>
           </Typography>
           {isAuthenticated ? (
-            <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+            <Button color="inherit" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
               Log Out
-            </button>
+            </Button>
           ) : (
             <Button color="inherit" onClick={() => loginWithRedirect()}>
               Login

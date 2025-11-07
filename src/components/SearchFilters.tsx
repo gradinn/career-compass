@@ -34,7 +34,7 @@ export function SearchFilters({ searchType, onSearchTypeChange }: SearchFiltersP
             : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
         }`}
       >
-        Majors & Careers
+        Majors
       </button>
     </div>
   );
