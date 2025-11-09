@@ -99,3 +99,14 @@ export type IndustryNews = {
   published_date: string;
   created_at: string;
 };
+
+export type Alumni = {
+  id: string;
+  university_major_id: string;
+  name: string;
+  graduation_year: number;
+  job_title: string;
+  company: string;
+  linkedin_url: string;
+  created_at: string;
+};
