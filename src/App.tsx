@@ -58,7 +58,7 @@ function CombinedWrapper() {
 function App() {
   return (
     <BrowserRouter>
-      <div>
+      <div style={{ paddingTop: '90px' }}>
         <Navbar />
 
         <Routes>
@@ -69,6 +69,7 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
+
   );
 }
 
