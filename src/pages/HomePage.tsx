@@ -91,23 +91,23 @@ export function HomePage({ onUniversityClick, onMajorClick }: HomePageProps) {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <div className="flex justify-center">
-            <div className="flex items-center gap-4">
-              <span className="text-5xl font-bold text-gray-900">Career</span>
-                <img
-                  src="/cc.png"
-                  alt="Career Compass Logo"
-                  className="w-20 h-20 object-contain -mt-2"
-                  style={{ cursor: "pointer" }}
-                />
-              <span className="text-5xl font-bold text-gray-900">Compass</span>
-            </div>
+          <div className="flex justify-center mb-4">
+            <img
+              src="/cc2.png"
+              alt="Career Compass Logo"
+              className="w-24 h-24 object-contain"
+              style={{ cursor: "pointer" }}
+            />
           </div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+
+          <h1 className="text-5xl font-bold text-gray-900">Career Compass</h1>
+
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">
             Discover your perfect university and career path. Research programs, read student reviews,
             and explore career outcomes.
           </p>
         </div>
+
 
         <div className="mb-8 space-y-6">
           <div className="flex justify-center">
