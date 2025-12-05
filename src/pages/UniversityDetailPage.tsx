@@ -77,12 +77,14 @@ export function UniversityDetailPage({ universityId, onBack, onMajorClick }: Uni
         </button>
 
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
-          {university.image_url && (
-            <img
-              src={university.image_url}
-              alt={university.name}
-              className="w-full h-64 object-cover"
-            />
+          {university.university_image && (
+            <div className="w-full h-64 overflow-hidden rounded-t-2xl relative">
+              <img
+                src={university.university_image}
+                alt={university.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
           )}
           <div className="p-8">
             <div className="flex items-start justify-between mb-4">
