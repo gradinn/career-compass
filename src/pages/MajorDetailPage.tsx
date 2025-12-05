@@ -28,7 +28,8 @@ export function MajorDetailPage({ majorId, onBack }: MajorDetailPageProps) {
 
   useEffect(() => {
     loadMajorDetails();
-    window.scrollTo(0, 0);
+    // Use setTimeout to ensure scroll happens after render
+    setTimeout(() => window.scrollTo(0, 0), 0);
   }, [majorId]);
 
   const loadMajorDetails = async () => {

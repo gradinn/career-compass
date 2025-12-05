@@ -23,7 +23,8 @@ export function UniversityDetailPage({ universityId, onBack, onMajorClick }: Uni
 
   useEffect(() => {
     loadUniversityDetails();
-    window.scrollTo(0, 0);
+    // Use setTimeout to ensure scroll happens after render
+    setTimeout(() => window.scrollTo(0, 0), 0);
   }, [universityId]);
 
   const loadUniversityDetails = async () => {
