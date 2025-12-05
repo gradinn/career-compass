@@ -88,18 +88,26 @@ export function HomePage({ onUniversityClick, onMajorClick }: HomePageProps) {
   const filteredMajors = searchType === 'university' ? [] : majors;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <GraduationCap className="w-12 h-12 text-blue-600" />
-            <h1 className="text-5xl font-bold text-gray-900">Career Compass</h1>
+          <div className="flex justify-center mb-4">
+            <img
+              src="/cc2.png"
+              alt="Career Compass Logo"
+              className="w-24 h-24 object-contain"
+              style={{ cursor: "pointer" }}
+            />
           </div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+
+          <h1 className="text-5xl font-bold text-gray-900">Career Compass</h1>
+
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">
             Discover your perfect university and career path. Research programs, read student reviews,
             and explore career outcomes.
           </p>
         </div>
+
 
         <div className="mb-8 space-y-6">
           <div className="flex justify-center">

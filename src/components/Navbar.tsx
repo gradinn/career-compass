@@ -5,33 +5,56 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function Navbar() {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
 
+  // Track hover state
+  const [hovered, setHovered] = useState(false);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="primary" elevation={2}>
+      <AppBar
+        position="fixed"
+        sx={{
+          backgroundColor: '#1976d3',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          border: '1px solid rgba(0,0,0,0.15)',
+        }}
+      >
         <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1 }}
-          >
-            <span
-              style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/')}
-            >
-              Home
-            </span>
-          </Typography>
+          <img
+            src={hovered ? "/cc.png" : "/cc2.png"}
+            alt="Home"
+            style={{
+              height: "75px",
+              cursor: "pointer",
+              transition: "0.2s ease"
+            }}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onClick={() => navigate('/')}
+          />
+
+          <Box sx={{ flexGrow: 1 }} />
+
           {isAuthenticated ? (
-            <Button color="inherit" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+            <Button
+              sx={{ color: '#ffffff' }}
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+            >
               Log Out
             </Button>
           ) : (
-            <Button color="inherit" onClick={() => loginWithRedirect()}>
+            <Button
+              sx={{ color: '#ffffff' }} 
+              onClick={() => loginWithRedirect()}
+            >
               Login
             </Button>
           )}
@@ -39,6 +62,6 @@ function Navbar() {
       </AppBar>
     </Box>
   );
-};
+}
 
 export default Navbar;
