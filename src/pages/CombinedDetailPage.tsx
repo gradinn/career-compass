@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   ArrowLeft,
   Star,
@@ -19,6 +20,7 @@ interface CombinedDetailPageProps {
 }
 
 export function CombinedDetailPage({ universityId, majorId, onBack }: CombinedDetailPageProps) {
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const [university, setUniversity] = useState<University | null>(null);
   const [major, setMajor] = useState<Major | null>(null);
   const [universityMajor, setUniversityMajor] = useState<UniversityMajor | null>(null);
@@ -144,16 +146,17 @@ export function CombinedDetailPage({ universityId, majorId, onBack }: CombinedDe
     }
   };
 
-  async function handleSubmitReview(e: React.FormEvent) {
-    e.preventDefault();
-    if (!major || !universityMajor) return;
+async function handleSubmitReview(e: React.FormEvent) {
+  e.preventDefault();
+  if (!major || !universityMajor) return;
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      // Create a new review object
-      const newReview: MajorReview = {
-        id: Math.random().toString(36).substring(7), // Generate a random ID
+    // Insert new review into Supabase
+    const { data, error } = await supabase
+      .from('major_reviews')
+      .insert({
         university_major_id: universityMajor.id,
         rating: form.rating,
         difficulty_rating: form.difficulty_rating,
@@ -163,28 +166,37 @@ export function CombinedDetailPage({ universityId, majorId, onBack }: CombinedDe
         current_job: form.current_job,
         job_title: form.job_title,
         graduation_year: form.graduation_year,
-        created_at: new Date().toISOString()
-      };
+      })
+      .select()
+      .single(); // gets the newly created row
 
-      // Add the review to local state
-      setReviews((r) => [newReview, ...r]);
-      
-      // Reset form and close it
-      setShowReviewForm(false);
-      setForm({
-        rating: 5,
-        difficulty_rating: 4,
-        career_prep_rating: 4,
-        title: '',
-        review_text: '',
-        current_job: '',
-        job_title: '',
-        graduation_year: new Date().getFullYear(),
-      });
-    } finally {
-      setLoading(false);
+    if (error) {
+      console.error("Error inserting review:", error);
+      return;
     }
+
+    // Add the newly created review to local state
+    setReviews((r) => [data, ...r]);
+
+    // Reset form and close it
+    setShowReviewForm(false);
+    setForm({
+      rating: 5,
+      difficulty_rating: 4,
+      career_prep_rating: 4,
+      title: '',
+      review_text: '',
+      current_job: '',
+      job_title: '',
+      graduation_year: new Date().getFullYear(),
+    });
+  } catch (error) {
+    console.error("Review submit error:", error);
+  } finally {
+    setLoading(false);
   }
+}
+
 
   if (loading || !university || !major) {
     return (
@@ -307,16 +319,25 @@ export function CombinedDetailPage({ universityId, majorId, onBack }: CombinedDe
           <div className="mb-6 flex items-center justify-between">
             <div className="text-sm text-gray-600">Share your experience in this program.</div>
             <div>
-              <button
-                onClick={() => setShowReviewForm((s) => !s)}
-                className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-              >
-                {showReviewForm ? 'Cancel' : 'Leave a review'}
-              </button>
+              {!isAuthenticated ? (
+                <button
+                  onClick={() => loginWithRedirect()}
+                  className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  Sign in to leave a review
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowReviewForm((s) => !s)}
+                  className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  {showReviewForm ? 'Cancel' : 'Leave a review'}
+                </button>
+              )}
             </div>
           </div>
 
-          {showReviewForm && (
+          {showReviewForm && isAuthenticated && (
             <form onSubmit={handleSubmitReview} className="mb-6 p-4 border rounded-lg bg-gray-50">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <label className="flex flex-col">
