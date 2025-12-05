@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { GraduationCap } from 'lucide-react';
 import { SearchBar } from '../components/SearchBar';
 import { SearchFilters } from '../components/SearchFilters';
 import { UniversityCard } from '../components/UniversityCard';
@@ -21,6 +20,7 @@ export function HomePage({ onUniversityClick, onMajorClick }: HomePageProps) {
 
   useEffect(() => {
     loadData();
+    window.scrollTo(0, 0);
   }, [searchQuery, searchType]);
 
   const loadData = async () => {

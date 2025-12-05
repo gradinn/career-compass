@@ -42,6 +42,8 @@ export function CombinedDetailPage({ universityId, majorId, onBack }: CombinedDe
 
   useEffect(() => {
     loadCombinedDetails();
+    // Use setTimeout to ensure scroll happens after render
+    setTimeout(() => window.scrollTo(0, 0), 0);
   }, [universityId, majorId]);
 
   const loadCombinedDetails = async () => {
