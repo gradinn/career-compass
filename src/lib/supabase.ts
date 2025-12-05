@@ -20,6 +20,8 @@ export type University = {
   description: string;
   website: string;
   image_url: string;
+  university_logo: string;
+  university_image: string;
   created_at: string;
   updated_at: string;
 };
