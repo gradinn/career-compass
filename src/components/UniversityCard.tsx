@@ -13,12 +13,14 @@ export function UniversityCard({ university, onClick }: UniversityCardProps) {
       className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-all cursor-pointer border border-gray-100"
     >
       <div className="flex gap-4">
-        {university.image_url && (
-          <img
-            src={university.image_url}
-            alt={university.name}
-            className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
-          />
+        {university.university_logo && (
+            <div className="w-24 h-24 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
+            <img
+              src={university.university_logo}
+              alt={university.name}
+              className="w-full h-full object-contain"
+            />
+          </div>
         )}
         <div className="flex-1 min-w-0">
           <h3 className="text-xl font-bold text-gray-900 mb-1">{university.name}</h3>
