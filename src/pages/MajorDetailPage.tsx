@@ -28,6 +28,7 @@ export function MajorDetailPage({ majorId, onBack }: MajorDetailPageProps) {
 
   useEffect(() => {
     loadMajorDetails();
+    window.scrollTo(0, 0);
   }, [majorId]);
 
   const loadMajorDetails = async () => {
